@@ -1,0 +1,41 @@
+.stall-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.stall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stall-box {
+  padding: 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: white;
+}
+
+.stall-box.available {
+  background-color: #28a745;
+}
+
+.stall-box.reserved {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.stall-box:hover {
+  transform: scale(1.05);
+}
