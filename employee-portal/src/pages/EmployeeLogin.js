@@ -9,7 +9,7 @@ function EmployeeLogin() {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.prevenDefault();
+        e.preventDefault();
         const success = await loginEmployee(email, password);
         if (success) {
             navigate("/dashboard");
