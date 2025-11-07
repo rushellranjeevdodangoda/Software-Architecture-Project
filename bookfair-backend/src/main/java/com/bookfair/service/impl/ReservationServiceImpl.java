@@ -38,6 +38,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation saved = reservationRepository.save(reservation);
 
         ReservationResponse response = new ReservationResponse();
+        response.success = true;
         response.reservationId = saved.getId();
         response.status = saved.getStatus();
 
@@ -45,7 +46,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void confirmReservation(String reservationId) {
+    @Transactional
+    public Reservation confirmReservation(String reservationId) {
         if (reservationId == null || reservationId.trim().isEmpty()) {
             throw new IllegalArgumentException("Reservation ID cannot be null or empty");
         }
@@ -54,9 +56,11 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
         reservation.setStatus("CONFIRMED");
-        reservationRepository.save(reservation);
+        Reservation updated = reservationRepository.save(reservation);
 
-        // Generate QR (placeholder)
-        qrCodeGenerator.generateForReservation(reservation);
+        // Generate QR code
+        qrCodeGenerator.generateForReservation(updated);
+
+        return updated;
     }
 }
