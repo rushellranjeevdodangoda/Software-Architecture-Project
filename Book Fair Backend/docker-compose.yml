@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: bookfair_db
+      POSTGRES_USER: bookfair_admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bookfair_db
+      SPRING_DATASOURCE_USERNAME: bookfair_admin
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - db
+
+volumes:
+  db-data:
