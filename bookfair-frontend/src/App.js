@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Home from "./components/Home";
+import Home from "./pages/Home"; // ✅ updated import
 import ForgotPassword from "./components/ForgotPassword";
 import Success from "./components/Success";
 import Navbar from "./components/Navbar";
@@ -10,6 +10,8 @@ import StallReservation from "./components/StallReservation"; // ✅ Import Stal
 import "./Login.css";
 
 function App() {
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+
   return (
     <BrowserRouter>
       {/* ✅ Navbar visible on all pages */}
@@ -28,20 +30,13 @@ function App() {
         {/* Protected routes */}
         <Route
           path="/home"
-          element={
-
-              <Home />
-          }
+          element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />}
         />
 
         {/* ✅ Stall Reservation Page */}
         <Route
           path="/stall-reservation"
-          element={
-            
-              <StallReservation />
-           
-          }
+          element={isAuthenticated ? <StallReservation /> : <Navigate to="/login" replace />}
         />
       </Routes>
     </BrowserRouter>
